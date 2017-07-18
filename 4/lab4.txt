@@ -1,0 +1,441 @@
+%Jessie George
+%0770
+%Section C3
+%Math 250 MATLAB Lab Assignment #4
+
+%Question 1 (a)
+rand('seed',0770)
+A = rmat(3,2)
+A =
+     9     1
+     5     9
+     8     1
+rank(A)
+ans =
+     2
+u = A(:,1)
+u =
+     9
+     5
+     8
+v = A(:,2)
+v =
+     1
+     9
+     1
+[s,t] = meshgrid((-1:0.1:1),(-1:0.1:1));
+X = s*u(1)+t*v(1);
+Y = s*u(2)+t*v(2);
+Z = s*u(3)+t*v(3);
+surf(X,Y,Z); axis square; colormap hot, hold on
+ 
+%Question 1 (b)
+b = rvect(3)
+b =
+     2
+     1
+     3
+r = -1:0.05:1;
+plot3(r*b(1), r*b(2), r*b(3), '+')
+% b does not lie inside Col(A) because 
+% from the graph, we see Span(b) does not completely lie inside Col(A)
+% Note: Image of graph attached.
+
+%Question 1 (c)
+%For the given A and b, there is no vector x such that Ax=b
+%because the graph shows Span(b) is not contained in Col(A)
+
+%Question 1 (d)
+z = rand(2,1), c=A*z
+z =
+    0.8939
+    0.9558
+c =
+    9.0004
+   13.0714
+    8.1066
+figure, surf(X,Y,Z); axis square; colormap hot, hold on
+plot3(r*c(1),r*c(2),r*c(3),'+')
+%Yes, Span(c) is contained in Col(A)
+%Note: Image of graph attached.
+
+%Question 2
+B = rmat(3,3), rank(B)
+B =
+     9     5     4
+     5     5     6
+     7     4     1
+ans =
+     3
+A = [B(:,1),B(:,2), 2*B(:,1)+3*B(:,2), 4*B(:,1) - 5*B(:,2), B(:,3)],
+A =
+     9     5    33    11     4
+     5     5    25    -5     6
+     7     4    26     8     1
+R = rref(A)
+R =
+     1     0     2     4     0
+     0     1     3    -5     0
+     0     0     0     0     1
+
+%Question 2 (a)
+%We made A such that columns #3 and #4 were linear combinations of columns #1 and #2  
+%so columns #3 and #4 are non-pivot columns of A and R by the Column Correspondence Property.
+%The remaining columns (#1,#2,#5) are independent columns, not linear combinations 
+%so these are the pivot columns of A and R.
+
+%Column #3 of A is 2*(elements of column#1) + 3*(elements of column#2)
+%By Column Correspondence Property, the 3rd column of R is
+%a linear combination of corresponding columns with same coefficients i.e. [2;3;0]
+%Column #4 of A is 4*(elements of column#1) - 5*(elements of column#2)
+%By Column Correspondence Property, the 4th column of R is
+%a linear combination of corresponding columns with same coefficients i.e. [4;-5;0]
+
+%Question 2 (b)
+V = null(A)
+V =
+   -0.5859   -0.7693
+    0.7959   -0.5724
+   -0.0115    0.2789
+    0.1522    0.0529
+    0.0000    0.0000
+%The free variables are x3 and x4 because 
+%columns #3 and #4 are non-pivot columns.
+%dim V = nullity of A = 5 - rank(A) = 5 - 3 = 2
+%Thus, dim V =  2 and V has 2 columns.
+
+% Question 2 (c)
+N = nulbasis(A)
+N =
+    -2    -4
+    -3     5
+     1     0
+     0     1
+     0     0
+v1 = N(:,1), v2 = N(:,2)
+v1 =
+    -2
+    -3
+     1
+     0
+     0
+v2 =
+    -4
+     5
+     0
+     1
+     0
+%For v1, the 3rd component is 1 and the 4th and 5th components are 0
+%For v2, the 3rd and 5th components are 0 and the 4th component is 1
+A*v1
+ans =
+     0
+     0
+     0
+A*v2
+ans =
+     0
+     0
+     0
+%Since v1 and v2 are solutions to Ax=0, they are in Null(A)
+
+%Question 2 (d)
+s = rand(1), t = rand(1), x = s*v1 + t*v2
+s =
+    0.8330
+t =
+    0.0875
+x =
+   -2.0159
+   -2.0615
+    0.8330
+    0.0875
+         0
+% x satisfies Ax=0 because it is a
+%linear combination of v1 and v2 and because
+%v1 and v2 satisfy Ax=0.
+% Since x satisfies Ax=0 it also satisfies Rx=0.
+A*x
+ans =
+   1.0e-14 *
+   -0.0444
+   -0.1110
+    0.0333
+R*x
+ans =
+   1.0e-15 *
+   -0.0555
+   -0.2220
+         0
+%Yes, Ax=0 and Rx=0 (approximately)
+
+%Question 3 (a)
+A = rmat(5,3), R =rref(A)
+A =
+     4     4     9
+     3     0     4
+     8     6     0
+     3     1     8
+     5     2     9
+R =
+     1     0     0
+     0     1     0
+     0     0     1
+     0     0     0
+     0     0     0
+rank(A)
+ans =
+     3
+%There are more rows than pivots in A,
+%so every row of A will not have a pivot position.
+%By Theorem 1.6 this means there exist vectors b such that Ax=b is inconsistent.
+b = rmat(5,1), xp = partic(A,b)
+b =
+     5
+     0
+     0
+     1
+     9
+xp =
+     []
+%xp is an empty vector so no solution.
+b = rand(1)*A(:,1) + rand(1)*A(:,2) + rand(1)*A(:,3)
+b =
+    7.7956
+    3.0286
+    7.0424
+    5.2401
+    7.1327
+xp = partic(A,b)
+xp =
+    0.4594
+    0.5612
+    0.4126
+A*xp
+ans =
+    7.7956
+    3.0286
+    7.0424
+    5.2401
+    7.1327
+b
+b =
+    7.7956
+    3.0286
+    7.0424
+    5.2401
+    7.1327
+%Yes, A*xp=b
+%b is a linear combination of the columns of A
+%so Ax=b is consistent by Theorem 1.5
+
+%Question 3 (b)
+A = rmat(3,5), R=rref(A)
+A =
+     3     6     2     0     8
+     9     5     6     2     8
+     1     3     9     4     7
+R =
+    1.0000         0         0   -0.0246   -0.0431
+         0    1.0000         0   -0.1538    1.2308
+         0         0    1.0000    0.4985    0.3723 
+rank(A)
+ans =
+     3
+%There is a pivot position in each row of A
+%so Ax=b is consistent for every vector b in R^3 by Theorem 1.6
+
+b = rmat(3,1), xp = partic(A,b)
+b =
+     6
+     5
+     7
+xp =
+   -0.3200
+    1.0000
+    0.4800
+         0
+         0
+%x4 and x5 are free variables because
+%column 4 and 5 of R are non-pivot columns. 
+%Therefore, x4 and x5 are set to zero in xp.
+A*xp
+ans =
+     6
+     5
+     7
+b
+b =
+     6
+     5
+     7
+%Yes, A*xp=b
+
+%Question 4 (a)
+N = nulbasis(A)
+N =
+    0.0246    0.0431
+    0.1538   -1.2308
+   -0.4985   -0.3723
+    1.0000         0
+         0    1.0000
+v1 = N(:,1), v2 = N(:,2)
+v1 =
+    0.0246
+    0.1538
+   -0.4985
+    1.0000
+         0
+v2 =
+    0.0431
+   -1.2308
+   -0.3723
+         0
+    1.0000
+x = xp + rand(1)*v1 + rand(1)*v2
+x =
+   -0.2683
+    0.3644
+   -0.2467
+    0.9806
+    0.6390
+A*x
+ans =
+     6
+     5
+     7
+b
+b =
+     6
+     5
+     7
+%Yes, Ax = b
+
+%Question 4 (b)
+x = xp + (-9)*v1 + (8)*v2
+x =
+   -0.1969
+  -10.2308
+    1.9877
+   -9.0000
+    8.0000
+A*x
+ans =
+    6.0000
+    5.0000
+    7.0000
+b
+b =
+     6
+     5
+     7
+%Yes, Ax = b
+
+%Question 5
+A = [0.30 0; 0.14 0; 0.56 1]
+A =
+    0.3000         0
+    0.1400         0
+    0.5600    1.0000
+B = [0.5 0 0; 0.5 1 0.6; 0 0 0.4]
+B =
+
+    0.5000         0         0
+    0.5000    1.0000    0.6000
+         0         0    0.4000
+C = [1 0.3 0; 0 0.2 0; 0 0.35 0.7; 0 0.15 0.3]
+C =
+    1.0000    0.3000         0
+         0    0.2000         0
+         0    0.3500    0.7000
+         0    0.1500    0.3000
+M = C*B*A
+M =
+    0.3378    0.1800
+    0.1252    0.1200
+    0.3759    0.4900
+    0.1611    0.2100
+
+%Question 5 (a)
+x = 1000*rvect(2), y = A*x, z = B*y, w = C*z
+x =
+        8000
+        9000
+y =
+        2400
+        1120
+       13480
+z =
+        1200
+       10408
+        5392
+w =
+   1.0e+03 *
+    4.3224
+    2.0816
+    7.4172
+    3.1788
+[1 1]*x
+ans =
+       17000
+[1 1 1]*y
+ans =
+       17000
+[1 1 1]*z
+ans =
+       17000
+[1 1 1 1]*w
+ans =
+       17000
+%The number of cars entering a network = the number of cars exiting a network
+%Therefore in each stage of traffic flow we have 17000 cars.
+
+%Question 5 (b) 
+y = [270 126 704]'
+y =
+   270
+   126
+   704
+%The equation relating x and y is Ax = y
+xp = partic(A, y)
+xp =
+
+   900
+   200
+A*xp
+ans =
+  270.0000
+  126.0000
+  704.0000
+%Yes, vector x is uniquely determined in this case.
+N = nulbasis(A)
+NB: Null space = {0}.
+N =
+   Empty matrix: 2-by-0
+%Since the null basis of A is empty, 
+%we cannot have a general solution,
+%there is only the unique solution.
+
+%Question 5 (c)
+w = [100 200 300 400]'
+w =
+   100
+   200
+   300
+   400
+%The equation relating w and x is: w = (CBA)x = Mx
+xp = partic(M,w)
+xp =
+     []
+% w cannot be the output traffic vector, 
+%because xp is an empty vector,
+%meaning there is no solution for w=Mx
+rref([M w])
+ans =
+     1     0     0
+     0     1     0
+     0     0     1
+     0     0     0
+%The third row of rref([M w]) has its
+%only non-zero element in the last column
+%which means w=Mx is inconsistent.

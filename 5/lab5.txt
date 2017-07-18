@@ -1,0 +1,329 @@
+% Jessie George
+% 0770
+% Sectioin C3
+% Math 250 MATLAB Lab Assignment #5
+
+%Question 1 (a)
+eigshow 
+% (i) A has 1 positive eigenvalue.
+% (ii) A has 1 negative eigenvalue.
+%(iii) The positive eigenvalue is approximately 1.25 and 
+%the negative eigenvalue is approximately -0.49 
+%For the positive eigenvalue, I calculated the length of Ax by taking the endpoints 
+%to be (0,0) and (0.75, 1) as seen in the graph approximately.
+%For the negative eigenvalue, I calculated the length of Ax by taking the endpoints 
+%to be (0,0) and (0.35,0.35) as seen in the graph approximately.
+
+%Question 1 (b)
+% (i) No, there are no lines through zero that contain both Ax and x
+% because from the graph, x and Ax never form a straight line.
+% (ii) No, A does not have real eigenvectors or eigenvalues 
+% because from the graph, Ax=(lambda)x will never have a real value solution, it should be a complex value.
+
+%Question 2 (a)
+A = [1 3; 4 2]/4
+A =
+    0.2500    0.7500
+    1.0000    0.5000
+syms t; I=eye(2); p=det(A-t*I)
+p =
+t^2 - (3*t)/4 - 5/8
+det(A)
+ans =
+   -0.6250
+%Yes, the constant term in polynomial p(t) = det(A) = -5/8 = -0.625
+
+%Question 2 (b)
+solve(p)
+ans =
+ -1/2
+  5/4
+%Yes, approximately -1/2 = -0.49 and 5/4 = 1.25 which were the estimates from Question 1(a)
+
+%Question 2 (c)
+A = [3 1; -2 4]/4
+A =
+    0.7500    0.2500
+   -0.5000    1.0000
+syms t; I=eye(2); p=det(A-t*I)
+p =
+t^2 - (7*t)/4 + 7/8
+det(A)
+ans =
+    0.8750
+%constant term in p(t) = det(A) = 7/8 = 0.875
+solve(p)
+ans =
+ 7/8 - (7^(1/2)*i)/8
+ (7^(1/2)*i)/8 + 7/8
+%No, the eigenvalues are not real. 
+%It confirms the observation in Question 1(b) 
+%that Ax=(lambda)x has no real solutions, but complex solutions.
+
+%Question 3 (a)
+rand('seed', 0770)
+A = rmat(3,3), z=eig(A)-real(eig(A))
+A =
+     9     1     2
+     5     9     1
+     8     1     3
+z =
+     0
+     0
+     0
+syms t; I=eye(3); p=det(A-t*I)
+p =
+- t^3 + 21*t^2 - 113*t + 93
+figure; ezplot(p, [-10, 10]), grid
+figure; ezplot(p, [-15, 15]), grid
+%Image of graph attached.
+%From the graph, the real roots of p(t) are approximately 1, 7.5 and 12.5
+
+%Question 3 (b)
+[P D] = eig(A)
+P =
+    0.2463   -0.4608    0.2557
+   -0.0328   -0.7584   -0.9323
+   -0.9686   -0.4608    0.2557
+D =
+    1.0000         0         0
+         0   12.6458         0
+         0         0    7.3542
+%Yes, the diagonal enteries of D are approximately equal to the real roots given in part (a)
+p1 = P(:,1), p2=P(:,2), p3=P(:,3)
+p1 =
+    0.2463
+   -0.0328
+   -0.9686
+p2 =
+   -0.4608
+   -0.7584
+   -0.4608
+p3 =
+    0.2557
+   -0.9323
+    0.2557
+A*p1-D(1,1)*p1
+ans =
+   1.0e-14 *
+    0.1360
+   -0.1485
+   -0.2887
+A*p2-D(2,2)*p2
+ans =
+   1.0e-14 *
+   -0.1776
+   -0.3553
+    0.2665
+A*p3-D(3,3)*p3
+ans =
+   1.0e-14 *
+    0.0888
+   -0.2665
+   -0.1554
+%From these calculations, AP-DP = 0 approximately
+%AP = DP
+%AP(P^-1) = DP(P^-1)  We know that P is invertible because det(P) is not equal to zero
+%AI = PD(P^-1)
+%A = PD(P^-1)
+%From Theorem 5.2, the diagonal entries of D are the eigenvalues corresponding 
+%to the respective columns of P which are a basis for R^n consisting of the eigenvectors of A.
+
+%Question 3 (c)
+A
+A =
+     9     1     2
+     5     9     1
+     8     1     3
+P*D*inv(P)
+ans =
+    9.0000    1.0000    2.0000
+    5.0000    9.0000    1.0000
+    8.0000    1.0000    3.0000
+%Yes, A = P*D*inv(P)
+%Formulae:
+%A^5 = P*D^5*inv(P)
+%A^10 = P*D^10*inv(P)
+A^5
+ans =
+      184521       57049       44978
+      276029      115401       66265
+      184520       57049       44979
+P*D^5*inv(P)
+ans =
+   1.0e+05 *
+    1.8452    0.5705    0.4498
+    2.7603    1.1540    0.6626
+    1.8452    0.5705    0.4498
+%Yes, A^5 = P*D^5*inv(P)
+A^10
+ans =
+   1.0e+10 *
+    5.8095    1.9676    1.4103
+    9.5014    3.2845    2.3043
+    5.8095    1.9676    1.4103
+P*D^10*inv(P)
+ans =
+   1.0e+10 *
+    5.8095    1.9676    1.4103
+    9.5014    3.2845    2.3043
+    5.8095    1.9676    1.4103
+%Yes, A^10 = P*D^10*inv(P)
+
+%Question 4 (a)
+A=eye(2); B=rand(2);
+A(:,1) = B(:,1)/sum(B(:,1)); A(:,2) = B(:,2)/sum(B(:,2))
+A =
+    0.4833    0.6159
+    0.5167    0.3841
+[1 1]*A
+ans =
+     1     1
+%[1 1]*A = [(1*0.4833)+(1*0.5167) (1*0.6159)+(1*0.3841)]
+%[1 1]*A = [0.4833+0.5167  0.6159+0.3841] = [1 1]
+% This shows that the sum of entries in each column of A is 1.
+% We also know that the entries of A are nonnegative
+% Therefore, A is a transition matrix.
+
+%Question 4 (b)
+u = nulbasis(A-eye(2)), v=u/sum(u)
+u =
+    1.1919
+    1.0000
+v =
+    0.5438
+    0.4562 
+A*v
+ans =
+    0.5438
+    0.4562
+%Yes, Av = v
+figure; plot([0,v(1)], [0,v(2)]), hold on
+
+%Question 4 (c)
+w = rand(2,1), p=w/sum(w)
+w =
+    0.3112
+    0.8690
+p =
+    0.2637
+    0.7363
+p=A*p, plot([0,p(1)], [0,p(2)], ':'), hold on
+p =
+    0.5809
+    0.4191
+p = A^2*p, plot([0,p(1)], [0,p(2)], ':'), hold on
+p =
+    0.5444
+    0.4556
+p = A^3*p, plot([0,p(1)], [0,p(2)], ':'), hold on
+p =
+    0.5438
+    0.4562
+%p has converged to steady-state vector v
+%graph is attached
+
+%Question 5 (a)
+A = [.40,.20,.20; .10,.70,.20; .50,.10,.60]
+A =
+    0.4000    0.2000    0.2000
+    0.1000    0.7000    0.2000
+    0.5000    0.1000    0.6000
+u = [1,1,1]
+u =
+     1     1     1
+u*A
+ans =
+     1     1     1
+%Yes, uA = u
+%Therefore, each column of A sums to 1
+
+%Question 5 (b)
+p = [.50; .30; .20]
+p =
+    0.5000
+    0.3000
+    0.2000
+u*p
+ans =
+     1
+%Yes, up=1 therefore entries of p sum to 1
+
+A*p
+ans =
+    0.3000
+    0.3000
+    0.4000
+% After 1 year:
+% 30% of people live in the city 
+% 30% of people live in the suburbs 
+% 40% of people live in the country
+
+A^2*p
+ans =
+    0.2600
+    0.3200
+    0.4200
+% After 2 years:
+% 26% of people live in the city 
+% 32% of people live in the suburbs 
+% 42% of people live in the country
+
+A^3*p
+ans =
+    0.2520
+    0.3340
+    0.4140
+% After 3 years:
+% 25.2% of people live in the city 
+% 33.4% of people live in the suburbs 
+% 41.4% of people live in the country
+
+A^5*p
+ans =
+    0.2501
+    0.3459
+    0.4041
+% After 5 years:
+% 25.01% of people live in the city 
+% 34.59% of people live in the suburbs 
+% 40.41% of people live in the country
+
+A^8*p
+ans =
+    0.2500
+    0.3495
+    0.4005
+% After 8 years:
+% 25% of people live in the city 
+% 34.95% of people live in the suburbs 
+% 40.05% of people live in the country
+
+%Question 5 (c)
+u = nulbasis(A-eye(3)), v=u/sum(u)
+u =
+    0.6250
+    0.8750
+    1.0000
+v =
+    0.2500
+    0.3500
+    0.4000
+A*v
+ans =
+    0.2500
+    0.3500
+    0.4000
+%Yes, Av=v
+
+% In the long run, 25% of people will live in the city, 
+% 35% of people will live in the suburbs, 
+% and 40% of people will live in the country. 
+% We know that after 8 years, 25% of people live in the city, 
+% 34.95% of people live in the suburbs, 
+% and 40.05% of people live in the country.
+% This means from the 9th year onwards, 
+% the percentage of people living in the city will stay the same, 
+% the percentage of people living in the suburbs will increase till it reaches 35%
+% and the percentage of people living in the country will decrease till it reaches 40%
+% This is because (A^m)p approaches v as m increases because A is a regular transition matrix.

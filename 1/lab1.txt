@@ -1,0 +1,380 @@
+%Jessie George
+%0770
+%Section C3
+%Math 250 MATLAB Lab Assignment #1
+rand('seed',0770)
+%Question 1 (a)
+R = rand(2,3)
+R =
+    0.9399    0.8044    0.9267
+    0.5725    0.1852    0.1111
+R = rand(2,3)
+R =
+    0.2955    0.3247    0.9558
+    0.1252    0.8939    0.9471
+R = rand(2,3)
+R =
+    0.5906    0.5200    0.4469
+    0.7334    0.5402    0.4153
+%Question 1 (b)
+A = [1 2; 3 4; 5 6]
+A =
+     1     2
+     3     4
+     5     6
+B = [1 2 3; 4 5 6; 7 8 9]
+B =
+     1     2     3
+     4     5     6
+     7     8     9
+x = [4 3 2]
+x =
+     4     3     2
+X = [1; 2; 3]
+X =
+     1
+     2
+     3
+B
+B =
+     1     2     3
+     4     5     6
+     7     8     9
+x
+x =
+     4     3     2
+X
+X =
+     1
+     2
+     3
+whos
+  Name      Size            Bytes  Class     Attributes
+
+  A         3x2                48  double              
+  B         3x3                72  double              
+  R         2x3                48  double              
+  X         3x1                24  double              
+  x         1x3                24  double              
+
+%Question 1 (c)
+[size(A); size(B); size(X); size(x)]
+ans =
+     3     2
+     3     3
+     3     1
+     1     3
+S = ans
+S =
+     3     2
+     3     3
+     3     1
+     1     3
+%Question 1 (d)
+a32 = A(3,2)
+a32 =
+     6
+%Yes, the element in the third row and second column of matrix A is 6.
+A(3,2) = 7
+A =
+     1     2
+     3     4
+     5     7
+A(3,2) = 6
+A =
+     1     2
+     3     4
+     5     6
+%Question 1 (e)
+C(:,1) = B(:,1); C(:,2) = B(:,3)
+C =
+     1     3
+     4     6
+     7     9
+D(1,:) = B(1,:); D(2,:) = B(3,:)
+D =
+     1     2     3
+     7     8     9
+C, D
+C =
+     1     3
+     4     6
+     7     9
+D =
+     1     2     3
+     7     8     9
+%Question 2 (a)            
+%From the list given, the following matrix combinations will fit
+%[A X] because both A and X have 3 rows
+%[B C] because both B and C have 3 rows
+%[B;D] because both B and D have 3 columns
+[A X]
+ans =
+     1     2     1
+     3     4     2
+     5     6     3
+[B C]
+ans =
+     1     2     3     1     3
+     4     5     6     4     6
+     7     8     9     7     9
+[C D]
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('horzcat')" style="font-weight:bold">horzcat</a>
+Dimensions of matrices being concatenated are not consistent.} 
+[C;B]
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('vertcat')" style="font-weight:bold">vertcat</a>
+Dimensions of matrices being concatenated are not consistent.} 
+%NOTE - I did not edit out the above errors to show that [C D] and [C;B] are incompatible.
+[B;D]
+ans =
+     1     2     3
+     4     5     6
+     7     8     9
+     1     2     3
+     7     8     9
+%Question 2 (b)
+eye(4)
+ans =
+     1     0     0     0
+     0     1     0     0
+     0     0     1     0
+     0     0     0     1
+zeros(3)
+ans =
+     0     0     0
+     0     0     0
+     0     0     0
+zeros(3,5)
+ans =
+     0     0     0     0     0
+     0     0     0     0     0
+     0     0     0     0     0
+ones(2,3)
+ans =
+     1     1     1
+     1     1     1
+diag([4 5 6 7])
+ans =
+     4     0     0     0
+     0     5     0     0
+     0     0     6     0
+     0     0     0     7
+%Question 3 (a)
+u = fix(10*rand(3,1))
+u =
+     6
+     1
+     8
+v = fix(10*rand(3,1))
+v =
+     0
+     4
+     3
+A = fix(10*rand(2,3))
+A =
+     8     5     0
+     3     4     6
+B = fix(10*rand(2,3))
+B =
+     1     9     0
+     2     4     8
+A+B
+ans =
+     9    14     0
+     5     8    14
+B+A
+ans =
+     9    14     0
+     5     8    14
+%As shown above, A+B = B+A which is the Commutative Law of Matrix Addition
+6*B
+ans =
+     6    54     0
+    12    24    48
+2*(3*B)
+ans =
+     6    54     0
+    12    24    48
+%Let s = 2 and t = 3 then as shown above, 
+%6B = 2(3B) is an example of (st)A = s(tA) 
+%which is a commutative property of scalar multiplication 
+6*A + 15*B
+ans =
+    63   165     0
+    48    84   156
+3*(2*A + 5*B)
+ans =
+    63   165     0
+    48    84   156
+%As shown above, 6A+15B = 3(2A+5B)
+%let s=3, X=2A and Y=5B then we can say sX+sY = s(X+Y)
+%which is a distributive property of scalar multiplication
+3*A
+ans =
+    24    15     0
+     9    12    18
+(3*A')'
+ans =
+    24    15     0
+     9    12    18
+%As shown above, 3A = (3A')'
+%which is an example of the following two properties
+%(sA)' = sA' where s = 3
+%and (A')' = A
+% Question 3 (b)
+A*u + A*v
+ans =
+    73
+   104
+A*(u+v)
+ans =
+    73
+   104
+%As shown above, Au + Av = A(u+v)
+%which is a property of matrix-vector products
+(A+B)*u
+ans =
+    68
+   150
+A*u+B*u
+ans =
+    68
+   150
+%As shown above, (A+B)u = Au + Bu
+%which is a property of matrix-vector products
+A*(3*u)
+ans =
+   159
+   210
+3*A*u
+ans =
+   159
+   210
+%let the scalar c = 3
+%then as shown above, A(cu) = c(Au)
+%which is a property of matrix-vector products with any scalar c
+%Question 4 (a)
+A = fix(10*rand(3,4))
+A =
+     8     9     2     9
+     9     6     5     1
+     1     0     9     9
+R = A; R(1,:) = R(1,:)/R(1,1)
+R =
+    1.0000    1.1250    0.2500    1.1250
+    9.0000    6.0000    5.0000    1.0000
+    1.0000         0    9.0000    9.0000
+R(2,:) = R(2,:) - R(2,1)*R(1,:)
+R =
+    1.0000    1.1250    0.2500    1.1250
+         0   -4.1250    2.7500   -9.1250
+    1.0000         0    9.0000    9.0000
+R(3,:) = R(3,:) - R(3,1)*R(1,:)
+R =
+    1.0000    1.1250    0.2500    1.1250
+         0   -4.1250    2.7500   -9.1250
+         0   -1.1250    8.7500    7.8750
+%Question 4 (b)
+R(2,:) = R(2,:)/R(2,2)
+R =
+    1.0000    1.1250    0.2500    1.1250
+         0    1.0000   -0.6667    2.2121
+         0   -1.1250    8.7500    7.8750
+R(1,:) = R(1,:) - R(1,2)*R(2,:)
+R =
+    1.0000         0    1.0000   -1.3636
+         0    1.0000   -0.6667    2.2121
+         0   -1.1250    8.7500    7.8750
+R(3,:) = R(3,:) - R(3,2)*R(2,:)
+R =
+    1.0000         0    1.0000   -1.3636
+         0    1.0000   -0.6667    2.2121
+         0         0    8.0000   10.3636
+%Question 4 (c)
+R(3,:) = R(3,:)/R(3,3)
+R =
+    1.0000         0    1.0000   -1.3636
+         0    1.0000   -0.6667    2.2121
+         0         0    1.0000    1.2955
+R(1,:) = R(1,:) - R(1,3)*R(3,:)
+R =
+    1.0000         0         0   -2.6591
+         0    1.0000   -0.6667    2.2121
+         0         0    1.0000    1.2955
+R(2,:) = R(2,:) - R(2,3)*R(3,:)
+R =
+    1.0000         0         0   -2.6591
+         0    1.0000         0    3.0758
+         0         0    1.0000    1.2955
+%Question 4 (d)
+rref(A)
+ans =
+    1.0000         0         0   -2.6591
+         0    1.0000         0    3.0758
+         0         0    1.0000    1.2955
+%As shown above, R = rref(A)
+%Question 5 (a)
+a = [0.1; 0.15; 0.3]
+a =
+    0.1000
+    0.1500
+    0.3000
+m = [0.2; 0.25; 0.1]
+m =
+    0.2000
+    0.2500
+    0.1000
+s = [0.2; 0.35; 0.1]
+s =
+    0.2000
+    0.3500
+    0.1000
+C = [a, m, s]
+C =
+    0.1000    0.2000    0.2000
+    0.1500    0.2500    0.3500
+    0.3000    0.1000    0.1000
+%Question 5 (b)
+x = [40; 50; 30]
+x =
+    40
+    50
+    30
+%let netProd be the net production vector
+netProd = x - C*x
+netProd =
+    20
+    21
+    10
+%The net production of agriculture, manufacturing and services
+% is $20 million, $21 million and $10 million respectively.
+%Question 5 (c)
+%Answer to part i
+% (eye(3) - C)*x = d
+%Answer to part ii
+%let d be the demand matrix and aug be the augmented matrix
+d = [90; 72; 96]
+d =
+    90
+    72
+    96
+eye(3) - C
+ans =
+    0.9000   -0.2000   -0.2000
+   -0.1500    0.7500   -0.3500
+   -0.3000   -0.1000    0.9000
+%the augmented matrix is a block combination 
+%of the matrix representing eye(3)-c and the demand matrix 
+aug = [ans d]
+aug =
+    0.9000   -0.2000   -0.2000   90.0000
+   -0.1500    0.7500   -0.3500   72.0000
+   -0.3000   -0.1000    0.9000   96.0000
+rref(aug)
+ans =
+    1.0000         0         0  194.0000
+         0    1.0000         0  226.5000
+         0         0    1.0000  196.5000
+%From the above matrix we see that in order to satisfy the given demand,
+%the gross production of agriculture, manufacturing and services
+%is $194 million, $226.5 million, and $196.5 million respectively

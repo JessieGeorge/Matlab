@@ -1,0 +1,318 @@
+%Jessie George
+%0770
+%Section C3
+%Math 250 MATLAB Lab Assignment #6
+
+rand('seed',0770)
+%Question 1 (a)
+u=rvect(2)
+u =
+     9
+     1
+v=rvect(2)
+v =
+     2
+     1
+rank([u, v])
+ans =
+     2
+%Triangle Inequality: 
+%For any vectors u and v in R^n, we have 
+% ||u+v|| <= ||u|| + ||v||
+norm(u+v)
+ans =
+   11.1803
+norm(u) + norm(v)
+ans =
+   11.2915
+%Yes, ||u+v|| <= ||u|| + ||v||
+
+%Question 1 (b)
+%Cauchy-Schwarz inequality:
+% For any vectors u and v in R^n, we have
+% |u.v| <= ||u||.||v||
+abs(u'*v)
+ans =
+    19
+norm(u)*norm(v)
+ans =
+   20.2485
+% Yes, |u.v| <= ||u||.||v||
+
+%Question 1 (c)
+w = [(u'*v)/(v'*v)]*v
+w =
+    7.6000
+    3.8000
+z = u-w
+z =
+    1.4000
+   -2.8000
+w'*z
+ans =
+   3.5527e-15
+%Yes, w and z are orthogonal because their dot product is approximately zero.
+
+%Question 1 (d)
+P = v*inv(v'*v)*v'
+P =
+    0.8000    0.4000
+    0.4000    0.2000
+% P is a 2x2 matrix because
+% v is a 2x1 matrix and v' is a 1x2 matrix so multiplying them gives a 2x2 matrix. 
+% And since inv(v'*v) is a scalar, it does not change the dimensions of P. 
+P*u
+ans =
+    7.6000
+    3.8000
+w
+w =
+    7.6000
+    3.8000
+%Yes, Pu=w
+
+%Question 2 (a)
+u1 = rvect(3)
+u1 =
+     9
+     5
+     8
+u2 = rvect(3)
+u2 =
+     1
+     9
+     1
+u3 = rvect(3)
+u3 =
+     2
+     1
+     3
+rank([u1, u2, u3])
+ans =
+     3
+r = 0:0.05:1; hold on
+plot3(r*u1(1), r*u1(2), r*u1(3), 'r:')
+plot3(r*u2(1), r*u2(2), r*u2(3), 'g:')
+plot3(r*u3(1), r*u3(2), r*u3(3), 'b:')
+%The vectors are not mutually orthogonal.
+
+%Question 2 (b)
+v1 = u1
+v1 =
+     9
+     5
+     8
+P1 = v1*inv(v1'*v1)*v1', v2 = u2 - P1*u2
+P1 =
+    0.4765    0.2647    0.4235
+    0.2647    0.1471    0.2353
+    0.4235    0.2353    0.3765
+v2 =
+   -2.2824
+    7.1765
+   -1.9176
+v1'*v2
+ans =
+   3.5527e-15
+%Yes, v1 and v2 are mutually orthogonal because their dot product is approximately zero
+plot3(r*v2(1), r*v2(2), r*v2(3), 'g-.')
+P2 = v2*inv(v2'*v2)*v2', v3 = u3 - P1*u3 - P2*u3
+P2 =
+    0.0863   -0.2712    0.0725
+   -0.2712    0.8528   -0.2279
+    0.0725   -0.2279    0.0609
+v3 =
+   -0.6070
+   -0.0091
+    0.6885
+v3'*v1
+ans =
+  -1.7764e-15
+v3'*v2
+ans =
+   2.2204e-16
+%Yes, v3 is orthogonal to v1 and v2 because the dot products are approximately zero.
+plot3(r*v3(1), r*v3(2), r*v3(3), 'b-.')
+%Graph is attached.
+
+%Question 2 (c)
+w1 = v1/norm(v1)
+w1 =
+    0.6903
+    0.3835
+    0.6136
+w2 = v2/norm(v2)
+w2 =
+   -0.2937
+    0.9235
+   -0.2468
+w3 = v3/norm(v3)
+w3 =
+   -0.6613
+   -0.0099
+    0.7501
+Q = [w1, w2, w3]
+Q =
+    0.6903   -0.2937   -0.6613
+    0.3835    0.9235   -0.0099
+    0.6136   -0.2468    0.7501
+%(i) Q'*Q = [w1'*w1, w1'*w2, w1'*w3; w2'*w1, w2'*w2, w2'*w3; w3'*w1, w3'*w2, w3'*w3]
+% {w1, w2, w3} is orthonormal if Q'*Q is an identity matrix because 
+% it means that w1,w2,and w3 are mutually orthogonal 
+% and it means that all columns of the orthognal set are unit vectors.
+[w1'*w1, w1'*w2, w1'*w3; w2'*w1, w2'*w2, w2'*w3; w3'*w1, w3'*w2, w3'*w3]
+ans =
+    1.0000         0   -0.0000
+         0    1.0000    0.0000
+   -0.0000    0.0000    1.0000
+Q'*Q
+ans =
+    1.0000         0   -0.0000
+         0    1.0000    0.0000
+   -0.0000    0.0000    1.0000
+%Yes, Q'*Q = [w1'*w1, w1'*w2, w1'*w3; w2'*w1, w2'*w2, w2'*w3; w3'*w1, w3'*w2, w3'*w3]
+%Yes, {w1,w2,w3} is orthonormal because Q'*Q is an identity matrix.
+
+% (ii) Q^-1 = Q^T  By Theorem 6.9, if Q is invertible, the inverse of Q = transpose of Q
+inv(Q)
+ans =
+    0.6903    0.3835    0.6136
+   -0.2937    0.9235   -0.2468
+   -0.6613   -0.0099    0.7501
+Q'
+ans =
+    0.6903    0.3835    0.6136
+   -0.2937    0.9235   -0.2468
+   -0.6613   -0.0099    0.7501
+%Yes, inv(Q) = Q'
+
+%Question 2 (d)
+A = [u1, u2, u3], R = Q'*A
+A =
+     9     1     2
+     5     9     1
+     8     1     3
+R =
+   13.0384    4.7552    3.6047
+   -0.0000    7.7710   -0.4042
+   -0.0000   -0.0000    0.9179
+Q*R
+ans =
+    9.0000    1.0000    2.0000
+    5.0000    9.0000    1.0000
+    8.0000    1.0000    3.0000
+%Yes, A=QR
+%(iii) R is upper triangular if all entries below the main diagonal are zero.
+% r subscript ij = (w subscript i).(u subscript j)
+% r21 = (w2).(u1) = 0
+% r31 = (w3).(u1) = 0
+% r32 = (w3).(u2) = 0
+% Thus, R is an upper triangular matrix.  
+
+%Question 3 (a)
+a1 = rvect(5); a2=rvect(5); a3=rvect(5); A=[a1,a2,a3]
+A =
+     9     1     9
+     5     2     9
+     8     1     5
+     1     3     7
+     9     8     5
+rank(A)
+ans =
+     3
+Q = grams(A)
+Q =
+    0.5669   -0.4303    0.1827
+    0.3150   -0.0039    0.5520
+    0.5040   -0.3644   -0.1933
+    0.0630    0.4226    0.6853
+    0.5669    0.7095   -0.3937
+w1 = Q(:,1), w2 = Q(:,2), w3 = Q(:,3)
+w1 =
+    0.5669
+    0.3150
+    0.5040
+    0.0630
+    0.5669
+w2 =
+   -0.4303
+   -0.0039
+   -0.3644
+    0.4226
+    0.7095
+w3 =
+    0.1827
+    0.5520
+   -0.1933
+    0.6853
+   -0.3937
+Q'*Q
+ans =
+    1.0000    0.0000   -0.0000
+    0.0000    1.0000         0
+   -0.0000         0    1.0000
+%{w1, w2, w3} is an orthonormal set because Q'*Q is an identity matrix
+%which means that w1,w2,and w3 are mutually orthogonal and 
+%the orthogonal set has all columns as unit vectors
+
+%Question 3 (b) 
+P = w1*w1' + w2*w2' + w3*w3'
+P =
+    0.5400    0.2811    0.4072   -0.0210   -0.0558
+    0.2811    0.4039    0.0534    0.3965   -0.0415
+    0.4072    0.0534    0.4241   -0.2547    0.1032
+   -0.0210    0.3965   -0.2547    0.6522    0.0658
+   -0.0558   -0.0415    0.1032    0.0658    0.9798
+v = rvect(5)
+v =
+     5
+     4
+     4
+     6
+     1
+w = P*v
+w =
+    5.2716
+    5.5721
+    2.5214
+    4.4410
+    1.3425
+z = v-w
+z =
+   -0.2716
+   -1.5721
+    1.4786
+    1.5590
+   -0.3425
+P*w
+ans =
+    5.2716
+    5.5721
+    2.5214
+    4.4410
+    1.3425
+%Yes Pw = w
+P*z
+ans =
+   1.0e-15 *
+    0.8361
+    0.2724
+    0.8604
+   -0.3816
+    0.2776
+% Yes, Pz=0 approximately
+
+%Question 3 (c)
+PW = A*inv(A'*A)*A'
+PW =
+    0.5400    0.2811    0.4072   -0.0210   -0.0558
+    0.2811    0.4039    0.0534    0.3965   -0.0415
+    0.4072    0.0534    0.4241   -0.2547    0.1032
+   -0.0210    0.3965   -0.2547    0.6522    0.0658
+   -0.0558   -0.0415    0.1032    0.0658    0.9798
+norm(PW-P)
+ans =
+   1.7831e-15
+%Yes, norm(PW-P)=0 approximately
+
+
